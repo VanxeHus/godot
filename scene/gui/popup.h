@@ -38,9 +38,12 @@ class Popup : public Control {
 
 	bool exclusive;
 	bool popped_up;
+	bool toplevel = true;
+	
 
 private:
 	void _popup(const Rect2 &p_bounds = Rect2(), const bool p_centered = false);
+
 
 protected:
 	virtual void _post_popup() {}
@@ -55,7 +58,9 @@ public:
 		NOTIFICATION_POST_POPUP = 80,
 		NOTIFICATION_POPUP_HIDE = 81
 	};
-
+	bool is_set_as_toplevel() const {
+		return toplevel;
+	}
 	void set_exclusive(bool p_exclusive);
 	bool is_exclusive() const;
 

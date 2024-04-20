@@ -160,6 +160,10 @@ private:
 
 	bool setting_scroll_ofs = false;
 	bool right_disconnects = false;
+	bool show_h_scroll = true;
+	bool show_v_scroll = true;
+	bool show_h_box = true;
+
 	bool updating = false;
 	bool awaiting_scroll_offset_update = false;
 	List<Connection> connections;
@@ -250,6 +254,8 @@ public:
 	void set_zoom_custom(float p_zoom, const Vector2 &p_center);
 	float get_zoom() const;
 
+	void set_dragging(bool p_enable) { dragging = p_enable; };
+
 	void set_zoom_min(float p_zoom_min);
 	float get_zoom_min() const;
 
@@ -276,6 +282,15 @@ public:
 
 	void set_right_disconnects(bool p_enable);
 	bool is_right_disconnects_enabled() const;
+
+	void set_show_h_scroll(bool p_enable);
+	bool is_show_h_scroll() const;
+
+	void set_show_v_scroll(bool p_enable);
+	bool is_show_v_scroll() const;
+
+	void set_show_h_box(bool p_enable);
+	bool is_show_h_box() const;
 
 	void add_valid_right_disconnect_type(int p_type);
 	void remove_valid_right_disconnect_type(int p_type);

@@ -603,7 +603,8 @@ AcceptDialog::AcceptDialog() {
 	hbc->add_spacer();
 
 	ok->connect("pressed", this, "_ok");
-	set_as_toplevel(true);
+	set_as_toplevel(is_set_as_toplevel());
+	// set_as_toplevel(true);
 
 	hide_on_ok = true;
 	set_title(RTR("Alert!"));

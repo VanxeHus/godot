@@ -320,7 +320,7 @@ void GraphEdit::_update_scroll() {
 	h_scroll->set_min(screen.position.x);
 	h_scroll->set_max(screen.position.x + screen.size.x);
 	h_scroll->set_page(get_size().x);
-	if (h_scroll->get_max() - h_scroll->get_min() <= h_scroll->get_page()) {
+	if (!show_h_scroll || (h_scroll->get_max() - h_scroll->get_min() <= h_scroll->get_page())) {
 		h_scroll->hide();
 	} else {
 		h_scroll->show();
@@ -330,7 +330,7 @@ void GraphEdit::_update_scroll() {
 	v_scroll->set_max(screen.position.y + screen.size.y);
 	v_scroll->set_page(get_size().y);
 
-	if (v_scroll->get_max() - v_scroll->get_min() <= v_scroll->get_page()) {
+	if (!show_v_scroll || (v_scroll->get_max() - v_scroll->get_min() <= v_scroll->get_page())) {
 		v_scroll->hide();
 	} else {
 		v_scroll->show();
@@ -1076,7 +1076,14 @@ void GraphEdit::set_selected(Node *p_child) {
 			continue;
 		}
 
-		gn->set_selected(gn == p_child);
+		bool isSeleted = gn == p_child;
+		gn->set_selected(isSeleted);
+		if(isSeleted){
+			emit_signal("node_selected", gn);
+		}
+		else{
+			emit_signal("node_unselected", gn);
+		}
 	}
 }
 
@@ -1215,7 +1222,6 @@ void GraphEdit::_gui_input(const Ref<InputEvent> &p_ev) {
 				emit_signal("_end_node_move");
 				moving_selection = false;
 			}
-
 			dragging = false;
 
 			top_layer->update();
@@ -1519,6 +1525,50 @@ bool GraphEdit::is_right_disconnects_enabled() const {
 	return right_disconnects;
 }
 
+void GraphEdit::set_show_h_scroll(bool p_enable) {
+	show_h_scroll = p_enable;
+	if(show_h_scroll){
+		h_scroll->show();
+	}
+	else{
+		h_scroll->hide();
+	}
+}
+
+bool GraphEdit::is_show_h_scroll() const {
+	return show_h_scroll;
+}
+
+void GraphEdit::set_show_v_scroll(bool p_enable) {
+	show_v_scroll = p_enable;
+	if(show_v_scroll){
+		v_scroll->show();
+	}
+	else{
+		v_scroll->hide();
+	}
+
+}
+
+bool GraphEdit::is_show_v_scroll() const {
+	return show_v_scroll;
+}
+	
+void GraphEdit::set_show_h_box(bool p_enable) {
+	show_h_box = p_enable;
+	if(show_h_box){
+		zoom_hb->show();
+	}
+	else{
+		zoom_hb->hide();
+	}
+
+}
+
+bool GraphEdit::is_show_h_box() const {
+	return show_h_box;
+}
+
 void GraphEdit::add_valid_right_disconnect_type(int p_type) {
 	valid_right_disconnect_types.insert(p_type);
 }
@@ -1676,6 +1726,7 @@ void GraphEdit::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("is_valid_connection_type", "from_type", "to_type"), &GraphEdit::is_valid_connection_type);
 
 	ClassDB::bind_method(D_METHOD("set_zoom", "p_zoom"), &GraphEdit::set_zoom);
+	ClassDB::bind_method(D_METHOD("set_dragging", "p_enable"), &GraphEdit::set_dragging);
 	ClassDB::bind_method(D_METHOD("get_zoom"), &GraphEdit::get_zoom);
 
 	ClassDB::bind_method(D_METHOD("set_zoom_min", "zoom_min"), &GraphEdit::set_zoom_min);
@@ -1709,6 +1760,15 @@ void GraphEdit::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_right_disconnects", "enable"), &GraphEdit::set_right_disconnects);
 	ClassDB::bind_method(D_METHOD("is_right_disconnects_enabled"), &GraphEdit::is_right_disconnects_enabled);
 
+	ClassDB::bind_method(D_METHOD("set_show_h_scroll", "enable"), &GraphEdit::set_show_h_scroll);
+	ClassDB::bind_method(D_METHOD("is_show_h_scroll"), &GraphEdit::is_show_h_scroll);
+
+	ClassDB::bind_method(D_METHOD("set_show_v_scroll", "enable"), &GraphEdit::set_show_v_scroll);
+	ClassDB::bind_method(D_METHOD("is_show_v_scroll"), &GraphEdit::is_show_v_scroll);
+
+	ClassDB::bind_method(D_METHOD("set_show_h_box", "enable"), &GraphEdit::set_show_h_box);
+	ClassDB::bind_method(D_METHOD("is_show_h_box"), &GraphEdit::is_show_h_box);
+
 	ClassDB::bind_method(D_METHOD("_graph_node_moved"), &GraphEdit::_graph_node_moved);
 	ClassDB::bind_method(D_METHOD("_graph_node_raised"), &GraphEdit::_graph_node_raised);
 	ClassDB::bind_method(D_METHOD("_graph_node_slot_updated"), &GraphEdit::_graph_node_slot_updated);
@@ -1730,6 +1790,9 @@ void GraphEdit::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("set_selected", "node"), &GraphEdit::set_selected);
 
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "show_h_scroll"), "set_show_h_scroll", "is_show_h_scroll");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "show_v_scroll"), "set_show_v_scroll", "is_show_v_scroll");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "show_h_box"), "set_show_h_box", "is_show_h_box");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "right_disconnects"), "set_right_disconnects", "is_right_disconnects_enabled");
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "scroll_offset"), "set_scroll_ofs", "get_scroll_ofs");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "snap_distance"), "set_snap", "get_snap");
@@ -1811,6 +1874,9 @@ GraphEdit::GraphEdit() {
 
 	zoom_label = memnew(Label);
 	zoom_hb->add_child(zoom_label);
+	if(!show_h_box){
+		zoom_hb->hide();
+	}
 	zoom_label->set_visible(false);
 	zoom_label->set_v_size_flags(Control::SIZE_SHRINK_CENTER);
 	zoom_label->set_align(Label::ALIGN_CENTER);

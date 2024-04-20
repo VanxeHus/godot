@@ -222,7 +222,7 @@ void Popup::_bind_methods() {
 }
 
 Popup::Popup() {
-	set_as_toplevel(true);
+	set_as_toplevel(is_set_as_toplevel());
 	exclusive = false;
 	popped_up = false;
 	hide();

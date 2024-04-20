@@ -96,9 +96,10 @@ void CollisionShape2D::_notification(int p_what) {
 		} break;
 		case NOTIFICATION_DRAW: {
 			ERR_FAIL_COND(!is_inside_tree());
-
-			if (!Engine::get_singleton()->is_editor_hint() && !get_tree()->is_debugging_collisions_hint()) {
-				break;
+			if (!is_draw_shape()){
+				if (!Engine::get_singleton()->is_editor_hint() && !get_tree()->is_debugging_collisions_hint()) {
+					break;
+				}
 			}
 
 			if (!shape.is_valid()) {
@@ -253,6 +254,8 @@ void CollisionShape2D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_shape"), &CollisionShape2D::get_shape);
 	ClassDB::bind_method(D_METHOD("set_disabled", "disabled"), &CollisionShape2D::set_disabled);
 	ClassDB::bind_method(D_METHOD("is_disabled"), &CollisionShape2D::is_disabled);
+	ClassDB::bind_method(D_METHOD("set_draw_shape", "draw_shape"), &CollisionShape2D::set_draw_shape);
+	ClassDB::bind_method(D_METHOD("is_draw_shape"), &CollisionShape2D::is_draw_shape);
 	ClassDB::bind_method(D_METHOD("set_one_way_collision", "enabled"), &CollisionShape2D::set_one_way_collision);
 	ClassDB::bind_method(D_METHOD("is_one_way_collision_enabled"), &CollisionShape2D::is_one_way_collision_enabled);
 	ClassDB::bind_method(D_METHOD("set_one_way_collision_margin", "margin"), &CollisionShape2D::set_one_way_collision_margin);
@@ -261,6 +264,7 @@ void CollisionShape2D::_bind_methods() {
 
 	ADD_PROPERTY(PropertyInfo(Variant::OBJECT, "shape", PROPERTY_HINT_RESOURCE_TYPE, "Shape2D"), "set_shape", "get_shape");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "disabled"), "set_disabled", "is_disabled");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "draw_shape"), "set_draw_shape", "is_draw_shape");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "one_way_collision"), "set_one_way_collision", "is_one_way_collision_enabled");
 	ADD_PROPERTY(PropertyInfo(Variant::REAL, "one_way_collision_margin", PROPERTY_HINT_RANGE, "0,128,0.1"), "set_one_way_collision_margin", "get_one_way_collision_margin");
 }

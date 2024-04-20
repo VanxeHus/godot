@@ -46,6 +46,7 @@ class CollisionShape2D : public Node2D {
 	bool disabled;
 	bool one_way_collision;
 	float one_way_collision_margin;
+	bool isDrawShape  = false;
 
 	void _update_in_shape_owner(bool p_xform_only = false);
 
@@ -61,6 +62,9 @@ public:
 
 	void set_disabled(bool p_disabled);
 	bool is_disabled() const;
+
+	void set_draw_shape(bool p_drawShape) { isDrawShape = p_drawShape; }
+	bool is_draw_shape() const { return isDrawShape; }
 
 	void set_one_way_collision(bool p_enable);
 	bool is_one_way_collision_enabled() const;

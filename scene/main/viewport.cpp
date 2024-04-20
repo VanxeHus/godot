@@ -2287,7 +2287,7 @@ void Viewport::_gui_input_event(Ref<InputEvent> p_event) {
 			_gui_call_input(over, mm);
 		}
 
-		set_input_as_handled();
+		// set_input_as_handled();
 
 		if (gui.drag_data.get_type() != Variant::NIL) {
 			bool can_drop = _gui_drop(over, pos, true);

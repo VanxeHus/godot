@@ -1185,6 +1185,7 @@ Size2 Control::get_parent_area_size() const {
 	return get_parent_anchorable_rect().size;
 }
 
+#pragma optimize("", off)
 void Control::_size_changed() {
 	Rect2 parent_rect = get_parent_anchorable_rect();
 
@@ -2043,7 +2044,7 @@ bool Control::is_toplevel_control() const {
 
 void Control::show_modal(bool p_exclusive) {
 	ERR_FAIL_COND(!is_inside_tree());
-	ERR_FAIL_COND(!data.SI);
+	// ERR_FAIL_COND(!data.SI);
 
 	if (is_visible_in_tree()) {
 		hide();
