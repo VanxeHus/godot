@@ -641,6 +641,27 @@ void fill_default_theme(Ref<Theme> &theme, const Ref<Font> &default_font, const 
 	theme->set_constant("close_offset", "GraphNode", 18 * scale);
 	theme->set_constant("port_offset", "GraphNode", 3 * scale);
 
+	// custom_graph_node
+	theme->set_stylebox("frame", "CustomGraphNode", graphsb);
+	theme->set_stylebox("selectedframe", "CustomGraphNode", graphsbselected);
+	theme->set_stylebox("defaultframe", "CustomGraphNode", graphsbdefault);
+	theme->set_stylebox("defaultfocus", "CustomGraphNode", graphsbdeffocus);
+	theme->set_stylebox("comment", "CustomGraphNode", graphsbcomment);
+	theme->set_stylebox("commentfocus", "CustomGraphNode", graphsbcommentselected);
+	theme->set_stylebox("breakpoint", "CustomGraphNode", graph_bpoint);
+	theme->set_stylebox("position", "CustomGraphNode", graph_position);
+	theme->set_constant("separation", "CustomGraphNode", 1 * scale);
+	theme->set_icon("port", "CustomGraphNode", make_icon(graph_port_png));
+	theme->set_icon("close", "CustomGraphNode", make_icon(graph_node_close_png));
+	theme->set_icon("resizer", "CustomGraphNode", make_icon(window_resizer_png));
+	theme->set_font("title_font", "CustomGraphNode", default_font);
+	theme->set_color("title_color", "CustomGraphNode", Color(0, 0, 0, 1));
+	theme->set_color("close_color", "CustomGraphNode", Color(0, 0, 0, 1));
+	theme->set_color("resizer_color", "CustomGraphNode", Color(0, 0, 0, 1));
+	theme->set_constant("title_offset", "CustomGraphNode", 20 * scale);
+	theme->set_constant("close_offset", "CustomGraphNode", 18 * scale);
+	theme->set_constant("port_offset", "CustomGraphNode", 3 * scale);
+
 	// Tree
 
 	Ref<StyleBoxTexture> tree_selected = make_stylebox(selection_png, 4, 4, 4, 4, 8, 0, 8, 0);
@@ -931,6 +952,40 @@ void fill_default_theme(Ref<Theme> &theme, const Ref<Font> &default_font, const 
 	Ref<Texture> resizer_icon = make_icon(window_resizer_png);
 	theme->set_icon("resizer", "GraphEditMinimap", flip_icon(resizer_icon, true, true));
 	theme->set_color("resizer_color", "GraphEditMinimap", Color(1, 1, 1, 0.85));
+
+
+	// custom_graph_edit
+	theme->set_icon("minus", "CustomGraphEdit", make_icon(icon_zoom_less_png));
+	theme->set_icon("reset", "CustomGraphEdit", make_icon(icon_zoom_reset_png));
+	theme->set_icon("more", "CustomGraphEdit", make_icon(icon_zoom_more_png));
+	theme->set_icon("snap", "CustomGraphEdit", make_icon(icon_snap_grid_png));
+	theme->set_icon("minimap", "CustomGraphEdit", make_icon(icon_grid_minimap_png));
+	theme->set_stylebox("bg", "CustomGraphEdit", make_stylebox(tree_bg_png, 4, 4, 4, 5));
+	theme->set_color("grid_minor", "CustomGraphEdit", Color(1, 1, 1, 0.05));
+	theme->set_color("grid_major", "CustomGraphEdit", Color(1, 1, 1, 0.2));
+	theme->set_color("selection_fill", "CustomGraphEdit", Color(1, 1, 1, 0.3));
+	theme->set_color("selection_stroke", "CustomGraphEdit", Color(1, 1, 1, 0.8));
+	theme->set_color("activity", "CustomGraphEdit", Color(1, 1, 1));
+	theme->set_constant("bezier_len_pos", "CustomGraphEdit", 80 * scale);
+	theme->set_constant("bezier_len_neg", "CustomGraphEdit", 160 * scale);
+
+	// Visual Node Ports
+
+	theme->set_constant("port_grab_distance_horizontal", "CustomGraphEdit", 24 * scale);
+	theme->set_constant("port_grab_distance_vertical", "CustomGraphEdit", 26 * scale);
+
+	theme->set_stylebox("bg", "CustomGraphEditMinimap", make_flat_stylebox(Color(0.24, 0.24, 0.24), 0, 0, 0, 0));
+	Ref<StyleBoxFlat> custom_style_minimap_camera = make_flat_stylebox(Color(0.65, 0.65, 0.65, 0.2), 0, 0, 0, 0);
+	custom_style_minimap_camera->set_border_color(Color(0.65, 0.65, 0.65, 0.45));
+	custom_style_minimap_camera->set_border_width_all(1);
+	theme->set_stylebox("camera", "CustomGraphEditMinimap", custom_style_minimap_camera);
+	Ref<StyleBoxFlat> custom_style_minimap_node = make_flat_stylebox(Color(1, 1, 1), 0, 0, 0, 0);
+	custom_style_minimap_node->set_corner_radius_all(2);
+	theme->set_stylebox("node", "CustomGraphEditMinimap", custom_style_minimap_node);
+
+	Ref<Texture> custom_resizer_icon = make_icon(window_resizer_png);
+	theme->set_icon("resizer", "CustomGraphEditMinimap", flip_icon(custom_resizer_icon, true, true));
+	theme->set_color("resizer_color", "CustomGraphEditMinimap", Color(1, 1, 1, 0.85));
 
 	// Theme
 

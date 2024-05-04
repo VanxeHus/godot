@@ -2177,7 +2177,7 @@ void Viewport::_gui_input_event(Ref<InputEvent> p_event) {
 					// As the popup wasn't triggered by a mouse click, the item focus needs to be removed manually.
 					menu_button->get_popup()->set_current_index(-1);
 				} else {
-					over = nullptr; //nothing can be found outside the modal stack
+					// over = nullptr; //nothing can be found outside the modal stack
 				}
 			}
 		}

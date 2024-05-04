@@ -66,6 +66,7 @@ private:
 
 	String title;
 	bool show_close;
+	bool alway_on_top = false;
 	Vector2 offset;
 	bool comment;
 	bool resizable;
@@ -135,6 +136,13 @@ public:
 
 	void set_title(const String &p_title);
 	String get_title() const;
+
+	void set_alway_on_top(bool p_enable) {
+		alway_on_top = p_enable;
+	}
+	bool is_alway_on_top() const {
+		return alway_on_top;
+	}
 
 	void set_offset(const Vector2 &p_offset);
 	Vector2 get_offset() const;

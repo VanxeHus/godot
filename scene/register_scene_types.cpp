@@ -95,6 +95,8 @@
 #include "scene/gui/flow_container.h"
 #include "scene/gui/graph_edit.h"
 #include "scene/gui/graph_node.h"
+#include "scene/gui/custom_graph_edit.h"
+#include "scene/gui/custom_graph_node.h"
 #include "scene/gui/grid_container.h"
 #include "scene/gui/item_list.h"
 #include "scene/gui/label.h"
@@ -379,7 +381,8 @@ void register_scene_types() {
 	ClassDB::register_class<VSplitContainer>();
 	ClassDB::register_class<GraphNode>();
 	ClassDB::register_class<GraphEdit>();
-
+	ClassDB::register_class<CustomGraphNode>();
+	ClassDB::register_class<CustomGraphEdit>();
 	OS::get_singleton()->yield(); //may take time to init
 
 #endif

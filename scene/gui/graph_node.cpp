@@ -849,6 +849,9 @@ void GraphNode::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_selected", "selected"), &GraphNode::set_selected);
 	ClassDB::bind_method(D_METHOD("is_selected"), &GraphNode::is_selected);
 
+	ClassDB::bind_method(D_METHOD("set_alway_on_top", "alway_on_top"), &GraphNode::set_alway_on_top);
+	ClassDB::bind_method(D_METHOD("is_alway_on_top"), &GraphNode::is_alway_on_top);
+
 	ClassDB::bind_method(D_METHOD("get_connection_output_count"), &GraphNode::get_connection_output_count);
 	ClassDB::bind_method(D_METHOD("get_connection_input_count"), &GraphNode::get_connection_input_count);
 
@@ -866,6 +869,7 @@ void GraphNode::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_overlay"), &GraphNode::get_overlay);
 
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "title"), "set_title", "get_title");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "alway_on_top"), "set_alway_on_top", "is_alway_on_top");
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "offset"), "set_offset", "get_offset");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "show_close"), "set_show_close_button", "is_close_button_visible");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "resizable"), "set_resizable", "is_resizable");

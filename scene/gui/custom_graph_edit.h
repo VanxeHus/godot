@@ -1,38 +1,12 @@
 /**************************************************************************/
-/*  graph_edit.h                                                          */
-/**************************************************************************/
-/*                         This file is part of:                          */
-/*                             GODOT ENGINE                               */
-/*                        https://godotengine.org                         */
-/**************************************************************************/
-/* Copyright (c) 2014-present Godot Engine contributors (see AUTHORS.md). */
-/* Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.                  */
-/*                                                                        */
-/* Permission is hereby granted, free of charge, to any person obtaining  */
-/* a copy of this software and associated documentation files (the        */
-/* "Software"), to deal in the Software without restriction, including    */
-/* without limitation the rights to use, copy, modify, merge, publish,    */
-/* distribute, sublicense, and/or sell copies of the Software, and to     */
-/* permit persons to whom the Software is furnished to do so, subject to  */
-/* the following conditions:                                              */
-/*                                                                        */
-/* The above copyright notice and this permission notice shall be         */
-/* included in all copies or substantial portions of the Software.        */
-/*                                                                        */
-/* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,        */
-/* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF     */
-/* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. */
-/* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY   */
-/* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,   */
-/* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE      */
-/* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
+/*  custom_graph_edit.h                                                          */
 /**************************************************************************/
 
-#ifndef GRAPH_EDIT_H
-#define GRAPH_EDIT_H
+#ifndef CUSTOM_GRAPH_EDIT_H
+#define CUSTOM_GRAPH_EDIT_H
 
 #include "scene/gui/box_container.h"
-#include "scene/gui/graph_node.h"
+#include "scene/gui/custom_graph_node.h"
 #include "scene/gui/label.h"
 #include "scene/gui/scroll_bar.h"
 #include "scene/gui/slider.h"
@@ -40,32 +14,32 @@
 #include "scene/gui/texture_rect.h"
 #include "scene/gui/tool_button.h"
 
-class GraphEdit;
+class CustomGraphEdit;
 
-class GraphEditFilter : public Control {
-	GDCLASS(GraphEditFilter, Control);
+class CustomGraphEditFilter : public Control {
+	GDCLASS(CustomGraphEditFilter, Control);
 
-	friend class GraphEdit;
-	friend class GraphEditMinimap;
-	GraphEdit *ge;
+	friend class CustomGraphEdit;
+	friend class CustomGraphEditMinimap;
+	CustomGraphEdit *ge;
 	virtual bool has_point(const Point2 &p_point) const;
 
 public:
-	GraphEditFilter(GraphEdit *p_edit);
+	CustomGraphEditFilter(CustomGraphEdit *p_edit);
 };
 
-class GraphEditMinimap : public Control {
-	GDCLASS(GraphEditMinimap, Control);
+class CustomGraphEditMinimap : public Control {
+	GDCLASS(CustomGraphEditMinimap, Control);
 
-	friend class GraphEdit;
-	friend class GraphEditFilter;
-	GraphEdit *ge;
+	friend class CustomGraphEdit;
+	friend class CustomGraphEditFilter;
+	CustomGraphEdit *ge;
 
 protected:
 	static void _bind_methods();
 
 public:
-	GraphEditMinimap(GraphEdit *p_edit);
+	CustomGraphEditMinimap(CustomGraphEdit *p_edit);
 
 	void update_minimap();
 	Rect2 get_camera_rect();
@@ -93,8 +67,8 @@ private:
 	void _adjust_graph_scroll(const Vector2 &p_offset);
 };
 
-class GraphEdit : public Control {
-	GDCLASS(GraphEdit, Control);
+class CustomGraphEdit : public Control {
+	GDCLASS(CustomGraphEdit, Control);
 
 public:
 	struct Connection {
@@ -156,7 +130,7 @@ private:
 	Point2 box_selecting_from;
 	Point2 box_selecting_to;
 	Rect2 box_selecting_rect;
-	List<GraphNode *> previous_selected;
+	List<CustomGraphNode *> previous_selected;
 
 	bool setting_scroll_ofs = false;
 	bool right_disconnects = false;
@@ -181,8 +155,8 @@ private:
 	void _gui_input(const Ref<InputEvent> &p_ev);
 
 	Control *connections_layer;
-	GraphEditFilter *top_layer;
-	GraphEditMinimap *minimap;
+	CustomGraphEditFilter *top_layer;
+	CustomGraphEditMinimap *minimap;
 	void _top_layer_input(const Ref<InputEvent> &p_ev);
 
 	bool is_in_hot_zone(const Vector2 &pos, const Vector2 &p_mouse_pos, const Vector2i &p_port_size, bool p_left);
@@ -216,17 +190,18 @@ private:
 	};
 
 	Set<ConnType> valid_connection_types;
-	Set<int> valid_left_disconnect_types;
-	Set<int> valid_right_disconnect_types;
+	Set<int> valid_disconnect_types;
+	bool can_disconnect = true;
+	bool can_connect_to_self_type = false;
 
 	HBoxContainer *zoom_hb;
 
-	friend class GraphEditFilter;
+	friend class CustomGraphEditFilter;
 	bool _filter_input(const Point2 &p_point);
 	void _snap_toggled();
 	void _snap_value_changed(double);
 
-	friend class GraphEditMinimap;
+	friend class CustomGraphEditMinimap;
 	void _minimap_toggled();
 
 	bool _check_clickable_control(Control *p_control, const Vector2 &pos);
@@ -278,8 +253,8 @@ public:
 	void set_minimap_enabled(bool p_enable);
 	bool is_minimap_enabled() const;
 
-	GraphEditFilter *get_top_layer() const { return top_layer; }
-	GraphEditMinimap *get_minimap() const { return minimap; }
+	CustomGraphEditFilter *get_top_layer() const { return top_layer; }
+	CustomGraphEditMinimap *get_minimap() const { return minimap; }
 	void get_connection_list(List<Connection> *r_connections) const;
 
 	void set_right_disconnects(bool p_enable);
@@ -294,11 +269,9 @@ public:
 	void set_show_h_box(bool p_enable);
 	bool is_show_h_box() const;
 
-	void add_valid_right_disconnect_type(int p_type);
-	void remove_valid_right_disconnect_type(int p_type);
+	void add_valid_disconnect_type(int p_type);
+	void remove_valid_disconnect_type(int p_type);
 
-	void add_valid_left_disconnect_type(int p_type);
-	void remove_valid_left_disconnect_type(int p_type);
 
 	void set_scroll_ofs(const Vector2 &p_ofs);
 	Vector2 get_scroll_ofs() const;
@@ -315,7 +288,7 @@ public:
 
 	HBoxContainer *get_zoom_hbox();
 
-	GraphEdit();
+	CustomGraphEdit();
 };
 
-#endif // GRAPH_EDIT_H
+#endif // CUSTOM_GRAPH_EDIT_H
