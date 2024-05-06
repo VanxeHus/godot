@@ -39,6 +39,7 @@ private:
 	Vector2 offset;
 	bool comment;
 	bool resizable;
+	bool dragged = false;
 	int slotNum = 0;
 
 	bool resizing;
@@ -120,6 +121,7 @@ public:
 	bool is_selected();
 
 	void set_drag(bool p_drag);
+	bool get_drag() { return dragged; }
 	Vector2 get_drag_from();
 
 	void set_show_close_button(bool p_enable);

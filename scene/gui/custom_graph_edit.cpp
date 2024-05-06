@@ -1153,12 +1153,18 @@ void CustomGraphEdit::_gui_input(const Ref<InputEvent> &p_ev) {
 			}
 
 			if (drag_accum != Vector2()) {
+				Array allDragNodeIds;
 				for (int i = get_child_count() - 1; i >= 0; i--) {
 					CustomGraphNode *gn = Object::cast_to<CustomGraphNode>(get_child(i));
 					if (gn && gn->is_selected()) {
 						gn->set_drag(false);
+						allDragNodeIds.push_back(gn);
 					}
 				}
+				if (allDragNodeIds.size() > 0){				
+					emit_signal("nodes_dragged", allDragNodeIds);
+				}
+
 			}
 
 			if (moving_selection) {
@@ -1780,6 +1786,7 @@ void CustomGraphEdit::_bind_methods() {
 	ADD_SIGNAL(MethodInfo("_begin_node_move"));
 	ADD_SIGNAL(MethodInfo("_end_node_move"));
 	ADD_SIGNAL(MethodInfo("scroll_offset_changed", PropertyInfo(Variant::VECTOR2, "ofs")));
+	ADD_SIGNAL(MethodInfo("nodes_dragged", PropertyInfo(Variant::ARRAY, "nodes")));
 }
 
 CustomGraphEdit::CustomGraphEdit() {

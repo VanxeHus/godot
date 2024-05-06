@@ -495,6 +495,7 @@ bool CustomGraphNode::is_selected() {
 }
 
 void CustomGraphNode::set_drag(bool p_drag) {
+	dragged = p_drag;
 	if (p_drag) {
 		drag_from = get_offset();
 	} else {
@@ -692,6 +693,8 @@ void CustomGraphNode::_bind_methods() {
 
 	ClassDB::bind_method(D_METHOD("set_alway_on_top", "alway_on_top"), &CustomGraphNode::set_alway_on_top);
 	ClassDB::bind_method(D_METHOD("is_alway_on_top"), &CustomGraphNode::is_alway_on_top);
+	ClassDB::bind_method(D_METHOD("get_drag_from"), &CustomGraphNode::get_drag_from);
+	ClassDB::bind_method(D_METHOD("get_drag"), &CustomGraphNode::get_drag);
 
 	ClassDB::bind_method(D_METHOD("get_connection_count"), &CustomGraphNode::get_connection_count);
 
@@ -708,6 +711,7 @@ void CustomGraphNode::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "title"), "set_title", "get_title");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "slotNum"), "set_slot_num", "get_slot_num");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "alway_on_top"), "set_alway_on_top", "is_alway_on_top");
+	// ADD_PROPERTY(PropertyInfo(Variant::BOOL, "dragged"), "set_drag", "get_drag");
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "offset"), "set_offset", "get_offset");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "show_close"), "set_show_close_button", "is_close_button_visible");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "resizable"), "set_resizable", "is_resizable");
