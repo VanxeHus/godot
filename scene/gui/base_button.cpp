@@ -86,11 +86,13 @@ void BaseButton::_gui_input(Ref<InputEvent> p_event) {
 void BaseButton::_notification(int p_what) {
 	if (p_what == NOTIFICATION_MOUSE_ENTER) {
 		status.hovering = true;
+		emit_signal("hover_change", true);
 		update();
 	}
 
 	if (p_what == NOTIFICATION_MOUSE_EXIT) {
 		status.hovering = false;
+		emit_signal("hover_change", false);
 		update();
 	}
 	if (p_what == NOTIFICATION_DRAG_BEGIN || p_what == NOTIFICATION_SCROLL_BEGIN) {
@@ -430,6 +432,7 @@ void BaseButton::_bind_methods() {
 	ADD_SIGNAL(MethodInfo("pressed"));
 	ADD_SIGNAL(MethodInfo("button_up"));
 	ADD_SIGNAL(MethodInfo("button_down"));
+	ADD_SIGNAL(MethodInfo("hover_change", PropertyInfo(Variant::BOOL, "is_hovering")));
 	ADD_SIGNAL(MethodInfo("toggled", PropertyInfo(Variant::BOOL, "button_pressed")));
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "disabled"), "set_disabled", "is_disabled");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "toggle_mode"), "set_toggle_mode", "is_toggle_mode");
