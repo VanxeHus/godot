@@ -96,6 +96,8 @@
 #include "scene/gui/flow_container.h"
 #include "scene/gui/graph_edit.h"
 #include "scene/gui/graph_node.h"
+#include "scene/gui/custom_graph_edit.h"
+#include "scene/gui/custom_graph_node.h"
 #include "scene/gui/grid_container.h"
 #include "scene/gui/item_list.h"
 #include "scene/gui/label.h"
@@ -444,6 +446,9 @@ void register_scene_types() {
 	GDREGISTER_CLASS(GraphNode);
 	GDREGISTER_CLASS(GraphEdit);
 
+	GDREGISTER_CLASS(CustomGraphElement);
+	GDREGISTER_CLASS(CustomGraphNode);
+	GDREGISTER_CLASS(CustomGraphEdit);
 	OS::get_singleton()->yield(); // may take time to init
 
 	bool swap_cancel_ok = false;

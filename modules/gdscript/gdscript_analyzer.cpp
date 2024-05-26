@@ -5214,7 +5214,8 @@ void GDScriptAnalyzer::is_shadowing(GDScriptParser::IdentifierNode *p_identifier
 
 	StringName parent = base.native_type;
 	while (parent != StringName()) {
-		ERR_FAIL_COND_MSG(!class_exists(parent), "Non-existent native base class.");
+		// ERR_FAIL_COND_MSG(!class_exists(parent), parent);
+		ERR_FAIL_COND_MSG(!class_exists(parent), "Non-existent native base class " + parent + ".");
 
 		if (ClassDB::has_method(parent, name, true)) {
 			parser->push_warning(p_identifier, GDScriptWarning::SHADOWED_VARIABLE_BASE_CLASS, p_context, p_identifier->name, "method", parent);

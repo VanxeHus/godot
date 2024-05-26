@@ -88,11 +88,13 @@ void BaseButton::_notification(int p_what) {
 	switch (p_what) {
 		case NOTIFICATION_MOUSE_ENTER: {
 			status.hovering = true;
+			emit_signal(SNAME("hover_change"), true);
 			queue_redraw();
 		} break;
 
 		case NOTIFICATION_MOUSE_EXIT: {
 			status.hovering = false;
+			emit_signal(SNAME("hover_change"), false);
 			queue_redraw();
 		} break;
 
@@ -474,6 +476,8 @@ void BaseButton::_bind_methods() {
 	ADD_SIGNAL(MethodInfo("button_up"));
 	ADD_SIGNAL(MethodInfo("button_down"));
 	ADD_SIGNAL(MethodInfo("toggled", PropertyInfo(Variant::BOOL, "toggled_on")));
+
+	ADD_SIGNAL(MethodInfo("hover_change", PropertyInfo(Variant::BOOL, "is_hovering")));
 
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "disabled"), "set_disabled", "is_disabled");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "toggle_mode"), "set_toggle_mode", "is_toggle_mode");

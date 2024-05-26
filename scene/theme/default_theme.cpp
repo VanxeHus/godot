@@ -740,6 +740,32 @@ void fill_default_theme(Ref<Theme> &theme, const Ref<Font> &default_font, const 
 	theme->set_constant("separation", "GraphNode", Math::round(2 * scale));
 	theme->set_constant("port_h_offset", "GraphNode", 0);
 
+	// custom_graph_node
+	theme->set_stylebox("panel", "CustomGraphNode", graphnode_normal);
+	theme->set_stylebox("panel_selected", "CustomGraphNode", graphnode_selected);
+	theme->set_stylebox("titlebar", "CustomGraphNode", graphn_sb_titlebar);
+	theme->set_stylebox("titlebar_selected", "CustomGraphNode", graphn_sb_titlebar_selected);
+	theme->set_stylebox("slot", "CustomGraphNode", graphnode_slot);
+	theme->set_icon("port", "CustomGraphNode", icons["graph_port"]);
+	theme->set_icon("resizer", "CustomGraphNode", icons["resizer_se"]);
+	theme->set_color("resizer_color", "CustomGraphNode", control_font_color);
+	theme->set_constant("separation", "CustomGraphNode", Math::round(2 * scale));
+	theme->set_constant("port_h_offset", "CustomGraphNode", 0);
+
+	theme->set_type_variation("CustomGraphNodeTitleLabel", "Label");
+
+	theme->set_stylebox("normal", "CustomGraphNodeTitleLabel", make_empty_stylebox(0, 0, 0, 0));
+	theme->set_font("font", "CustomGraphNodeTitleLabel", Ref<Font>());
+	theme->set_font_size("font_size", "CustomGraphNodeTitleLabel", -1);
+	theme->set_color("font_color", "CustomGraphNodeTitleLabel", control_font_color);
+	theme->set_color("font_shadow_color", "CustomGraphNodeTitleLabel", Color(0, 0, 0, 0));
+	theme->set_color("font_outline_color", "CustomGraphNodeTitleLabel", control_font_color);
+	theme->set_constant("shadow_offset_x", "CustomGraphNodeTitleLabel", Math::round(1 * scale));
+	theme->set_constant("shadow_offset_y", "CustomGraphNodeTitleLabel", Math::round(1 * scale));
+	theme->set_constant("outline_size", "CustomGraphNodeTitleLabel", 0);
+	theme->set_constant("shadow_outline_size", "CustomGraphNodeTitleLabel", Math::round(1 * scale));
+	theme->set_constant("line_spacing", "CustomGraphNodeTitleLabel", Math::round(3 * scale));
+
 	// GraphNodes's title Label.
 
 	theme->set_type_variation("GraphNodeTitleLabel", "Label");
@@ -1171,6 +1197,41 @@ void fill_default_theme(Ref<Theme> &theme, const Ref<Font> &default_font, const 
 
 	theme->set_icon("resizer", "GraphEditMinimap", icons["resizer_nw"]);
 	theme->set_color("resizer_color", "GraphEditMinimap", Color(1, 1, 1, 0.85));
+
+	// custom_graph_edit
+	theme->set_icon("zoom_out", "CustomGraphEdit", icons["zoom_less"]);
+	theme->set_icon("zoom_in", "CustomGraphEdit", icons["zoom_more"]);
+	theme->set_icon("zoom_reset", "CustomGraphEdit", icons["zoom_reset"]);
+	theme->set_icon("grid_toggle", "CustomGraphEdit", icons["grid_toggle"]);
+	theme->set_icon("minimap_toggle", "CustomGraphEdit", icons["grid_minimap"]);
+	theme->set_icon("snapping_toggle", "CustomGraphEdit", icons["grid_snap"]);
+	theme->set_icon("layout", "CustomGraphEdit", icons["grid_layout"]);
+
+	theme->set_stylebox("panel", "CustomGraphEdit", make_flat_stylebox(style_normal_color, 4, 4, 4, 5));
+
+	Ref<StyleBoxFlat> custom_graph_toolbar_style = make_flat_stylebox(Color(0.24, 0.24, 0.24, 0.6), 4, 2, 4, 2);
+	theme->set_stylebox("menu_panel", "CustomGraphEdit", custom_graph_toolbar_style);
+
+	theme->set_color("grid_minor", "CustomGraphEdit", Color(1, 1, 1, 0.05));
+	theme->set_color("grid_major", "CustomGraphEdit", Color(1, 1, 1, 0.2));
+	theme->set_color("selection_fill", "CustomGraphEdit", Color(1, 1, 1, 0.3));
+	theme->set_color("selection_stroke", "CustomGraphEdit", Color(1, 1, 1, 0.8));
+	theme->set_color("activity", "CustomGraphEdit", Color(1, 1, 1));
+
+	// Visual Node Ports
+
+	theme->set_constant("port_hotzone_inner_extent", "CustomGraphEdit", 22 * scale);
+	theme->set_constant("port_hotzone_outer_extent", "CustomGraphEdit", 26 * scale);
+
+	theme->set_stylebox("panel", "CustomGraphEditMinimap", make_flat_stylebox(Color(0.24, 0.24, 0.24), 0, 0, 0, 0));
+	Ref<StyleBoxFlat> custom_style_minimap_camera = make_flat_stylebox(Color(0.65, 0.65, 0.65, 0.2), 0, 0, 0, 0, 0);
+	custom_style_minimap_camera->set_border_color(Color(0.65, 0.65, 0.65, 0.45));
+	custom_style_minimap_camera->set_border_width_all(1);
+	theme->set_stylebox("camera", "CustomGraphEditMinimap", custom_style_minimap_camera);
+	theme->set_stylebox("node", "CustomGraphEditMinimap", make_flat_stylebox(Color(1, 1, 1), 0, 0, 0, 0, 2));
+
+	theme->set_icon("resizer", "CustomGraphEditMinimap", icons["resizer_nw"]);
+	theme->set_color("resizer_color", "CustomGraphEditMinimap", Color(1, 1, 1, 0.85));
 
 	// Theme
 
