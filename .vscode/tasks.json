@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "scons",
+            "group": "build",
+            "args": [
+                "platform=windows",
+                "target=release_debug",
+                "use_lto=no",
+                "-j",
+                "4"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
