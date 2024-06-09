@@ -206,6 +206,8 @@ private:
 	float zoom_max = 0.0;
 
 	bool fix_range = false;
+	bool fix_zoom = false;
+	bool fix_move = false;
 	Vector2 x_range;
 	Vector2 y_range;
 	bool show_h_scroll = true;
@@ -335,6 +337,12 @@ public:
 
 	bool is_fix_range() const { return fix_range; }
 	void set_fix_range(bool p_enable) { fix_range = p_enable; }
+
+	bool is_fix_zoom() const { return fix_zoom; }
+	void set_fix_zoom(bool p_enable) { fix_zoom = p_enable; }
+
+	bool is_fix_move() const { return fix_move; }
+	void set_fix_move(bool p_enable) { fix_move = p_enable; }
 
 	void set_show_h_scroll(bool p_enable);
 	bool is_show_h_scroll() const;

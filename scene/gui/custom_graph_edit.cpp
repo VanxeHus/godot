@@ -1140,10 +1140,16 @@ void CustomGraphEdit::set_selected(Node *p_child) {
 
 void CustomGraphEdit::gui_input(const Ref<InputEvent> &p_ev) {
 	ERR_FAIL_COND(p_ev.is_null());
-	if (panner->gui_input(p_ev, warped_panning ? get_global_rect() : Rect2())) {
+	// 禁止移动
+	if (fix_move){
 		return;
 	}
-
+	if (!fix_zoom){
+		if (panner->gui_input(p_ev, warped_panning ? get_global_rect() : Rect2())) {
+			return;
+		}
+	}
+	
 	Ref<InputEventMouseMotion> mm = p_ev;
 
 	if (mm.is_valid() && dragging) {
@@ -1954,6 +1960,11 @@ void CustomGraphEdit::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_fix_range", "enable"), &CustomGraphEdit::set_fix_range);
 	ClassDB::bind_method(D_METHOD("is_fix_range"), &CustomGraphEdit::is_fix_range);
 
+	ClassDB::bind_method(D_METHOD("set_fix_zoom", "enable"), &CustomGraphEdit::set_fix_zoom);
+	ClassDB::bind_method(D_METHOD("is_fix_zoom"), &CustomGraphEdit::is_fix_zoom);
+	ClassDB::bind_method(D_METHOD("set_fix_move", "enable"), &CustomGraphEdit::set_fix_move);
+	ClassDB::bind_method(D_METHOD("is_fix_move"), &CustomGraphEdit::is_fix_move);
+
 	ClassDB::bind_method(D_METHOD("set_show_h_scroll", "enable"), &CustomGraphEdit::set_show_h_scroll);
 	ClassDB::bind_method(D_METHOD("is_show_h_scroll"), &CustomGraphEdit::is_show_h_scroll);
 
@@ -1988,6 +1999,8 @@ void CustomGraphEdit::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "x_range"), "set_xrange", "get_xrange");
 	ADD_PROPERTY(PropertyInfo(Variant::VECTOR2, "y_range"), "set_yrange", "get_yrange");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "fix_range"), "set_fix_range", "is_fix_range");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "fix_zoom"), "set_fix_zoom", "is_fix_zoom");
+	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "fix_move"), "set_fix_move", "is_fix_move");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "show_h_scroll"), "set_show_h_scroll", "is_show_h_scroll");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "show_v_scroll"), "set_show_v_scroll", "is_show_v_scroll");
 
